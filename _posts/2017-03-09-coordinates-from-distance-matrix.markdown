@@ -49,7 +49,7 @@ which has the same size as $$D$$. We then apply singular value decomposition (SV
 
 You can think of $$S$$ as describing how skewed your coordinate system is. For example if your coordinates represented cities in Chile the first value of $$S$$ will be much larger than the second one since the country is long and narrow, where as if they represented cities in Germany the singular values would be approximately the same size.
 
-In order to get the coordinates we simply multiply $$U$$ with the square root of $$S$$. $$X$$ is now also an $$n \times n$$ matrix, but only the first two columns are non-zero (since our coordinates were in two dimensions). Each row in $$X$$ represents a coordinate. Note that X is not necessarily the same coordinates as the one we started with since we do not know the rotation of the coordinate system. In other words we can find an infinite number of solutions to this problem just by rotating our coordinate system. To test our algorithm we can just recompute the distance matrix and compare it to what we started with.
+In order to get the coordinates we simply multiply $$U$$ with the square root of $$S$$. $$X$$ is now also an $$n \times n$$ matrix, but only the first two columns are non-zero (since our coordinates were in two dimensions). Each row in $$X$$ represents a coordinate. Note that $$X$$ is not necessarily the same coordinates as the one we started with since we do not know the rotation of the coordinate system. In other words we can find an infinite number of solutions to this problem just by rotating our coordinate system. To test our algorithm we can just recompute the distance matrix and compare it to what we started with.
 
 The full code is here:
 ``` python
