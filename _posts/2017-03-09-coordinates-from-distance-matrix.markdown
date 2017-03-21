@@ -94,7 +94,7 @@ plt.show()
 ```
 
 
-Until now we only the 2D case but, the algorithm also works for higher dimensions. The only difference is that $$S$$ will have more than two values which are non-zero.
+Until now we only the 2D case, but the algorithm also works for higher dimensions. The only difference is that $$S$$ will have more than two values which are non-zero.
 
 *As a bonus:* If you want to visualize your high dimensional map you can just select the two first dimensions (columns) of $$X$$ to plot. This is similary to principal component analysis (PCA) which is often used in machine learning for reducing the dimensions of high dimensional data.
 
