@@ -68,12 +68,10 @@ def find_coords(D):
 
     return X
 
-# Test algorithm by distance matrix using some random coordinates
-coords = np.matrix('1 2; 3 4; 5 2')
-
 num_coords = 30 # number of coordinates
 num_dims = 10 # number of dimension
 
+# Test algorithm by distance matrix using some random coordinates
 coords = np.random.rand(num_coords,num_dims)
 D = squareform(pdist(coords))
 print("Distance matrix:")
