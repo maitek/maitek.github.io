@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Calculating map coordinates when you only know the distance"
-date:   2016-03-22 17:50:00
+date:   2017-03-22 17:50:00
 categories: main
 unpublished: True
 ---
@@ -25,7 +25,7 @@ Imagine that you have list of cities and their coordinates on the map. Calculati
 
 
 <center><img src="http://i.stack.imgur.com/EUf6U.png" class="inline"/></center>
-What if I told you that a solution could be found in ... BOOM! ... just 3 lines of python?!
+What if I told you that a solution could be found in ... just 3 lines of python?!
 
 Here it is:
 
