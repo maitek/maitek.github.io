@@ -18,4 +18,6 @@ kramdown:
   input: GFM
   syntax_highlighter: rouge
 
-#highlighter: rouge
+
+# Google services
+google_analytics: UA-97885828-1
