@@ -26,7 +26,7 @@ Procedural level design is when a level or part of the level is generated accord
 
 ## Generating random caves
 
-In this tutorial we will generate procedural caves using some very simple pixel rules called [cellular automata](http://www.roguebasin.com/index.php?title=Cellular_Automata_Method_for_Generating_Random_Cave-Like_Levels). The algorithm starts out with a random binary grid, where every cell has the value 1 or 0. A pixel with value 1 defines the walls and 0 defines the air inside the cave. The algorithm then applies what is commonly known as the 4-5 rule to every cell in the grid. The 4-5 rule says that if cell has 5 or more pixels with value 1 in its $$3 \times 3$$ neighborhood, the cell should also be set to 1. If it has 4 or less it should be set to 0. This is then repeated a few times until a cave like structure appears.
+In this tutorial we will generate procedural caves using some very simple pixel rules called [cellular automata](http://www.roguebasin.com/index.php?title=Cellular_Automata_Method_for_Generating_Random_Cave-Like_Levels). The algorithm starts out with a random binary grid where every pixel has the value 1 or 0. A pixel with value 1 defines the walls and 0 defines the air inside the cave. The algorithm then applies what is commonly known as the 4-5 rule to every pixel in the grid. The 4-5 rule says that if cell has 5 or more pixels with value 1 in its $$3 \times 3$$ neighborhood, the cell should also be set to 1. If it has 4 or less it should be set to 0. This is then repeated for every pixel a few times until a cave like structure appears.
 
 The code for generating a cave can simply be written in Python like this:
 
@@ -51,18 +51,18 @@ def generate_map(map_size=(64,64),num_iterations=10, ksize = 3):
     return random_map
 ```
 
-The 4-5 rule is here implemented as a 2D convolution with $$k \times k$$ sized kernel. The 2D convolution is an operation simply calculating a weighted sum of all pixels with the kernel sized neighborhood of the pixel. In this case, since the image is binary and the weights are just one the images, the convolution is just calculating the number set pixels (pixel with value 1) around a given pixel. Each pixel then set or unset depending on the corresponding value in the convoluted map.
+The 4-5 rule is here implemented as a 2D convolution with $$k \times k$$ sized kernel. The 2D convolution is an operation simply calculating a weighted sum of all pixels within the kernel sized neighborhood of the pixel. In this case, since the image is binary and the weights are just one the images, the convolution is just calculating the number set pixels (pixel with value 1) around a given pixel. Each pixel then set or unset depending on the corresponding value in the convoluted map.
 
-The convolution operation not only allows for compact code but also gives us additional flexibility. We can for example increase the kernel size to generalize the 4-5 rule to larger neighborhood. This is useful for maps of larger resolution. So instead of thresholding at 4 and 5 calculate the threshold to be half of the number of pixels in the kernel. We can now get different structure simply by changing the *ksize* parameter. The method returns a binary image where ones defines the walls an zeros defines the caves.
+The convolution operation not only allows for compact code but also gives us additional flexibility. We can for example increase the kernel size to generalize the 4-5 rule to larger neighborhood. This is useful for maps of larger resolution. So instead of thresholding between 4 and 5, we calculate the threshold to be at half of the number of pixels in the kernel. For example a $$5 \times 5$$ has 25 pixels so the threshold would be between 12 and 13. We can now get different structure simply by changing the *ksize* parameter. The method returns a binary image where ones defines the walls an zeros defines the caves.
 
 <!-- Image of different maps with different kernel sizes here! -->
 <center><img src="/images/cave_generation.png" class="inline"/></center>
 
 ## Neural style transfer
 
-Now we can easily generate hundreds of awesome caves levels for our game on the fly. The only thing we need to do now is to tell our artist to import each of the levels into photoshop, and to make them look nice for the game. A few months later we should have a pretty awesome looking game. But what if we then decide to change the art style of our game. Our artist would have to go back and redo all of the 1000 levels. What if we could transform our caves into the art style of the game in similar way as we generated our levels. This is where neural style transfer come into play.
+Now we can easily generate hundreds of awesome caves levels for our game on the fly. The only thing we need to do now is to import each of the levels into photoshop, and apply brush and texture to make them look nice for the game. A few months later we should have a pretty awesome looking game. But what if we then decide to change the art style of our game. We would have to go back and redo all of the 1000 levels. What if we could transform our caves into the art style of the game in similar way as we generated our levels. This is where neural style transfer come into play.
 
-Neural style transfer is a recent technique in machine learning where a neural network is trained to transfer a art style from one image to another. The style of an image is decouple from its content by using a deep neural network trained for object recognition. This can be done since the deeper layers of the neural network (closer to the output) are more activated for high level features in the images such as objects, while the shallower layers (closer to the input) are activated only for the image style such as brush strokes. This is the same technique which is used in some popular photo apps such as [Prisma](https://prisma-ai.com/).
+Neural style transfer is a recent technique in machine learning where a neural network is trained to transfer an art style from one image to another. The style of an image is decouple from its content by using a deep neural network trained for object recognition. This can be done since the deeper layers of the neural network (closer to the output) are more activated for high level features in the images such as objects, while the shallower layers (closer to the input) are activated only for the image style such as brush strokes. This is the same technique which is used in some popular photo apps such as [Prisma](https://prisma-ai.com/).
 
 <!-- style transfer image -->
 <center><img src="/images/style-transfer.png" class="inline"/></center>
@@ -73,7 +73,7 @@ In the end of 2016 Google published a research paper where they show that multip
 
 We define a new method **stylize_image** which takes our generated cave image and style index (0-31) as input and returns the stylized image. The method also needs the saved checkpoint file of the trained neural network model. We will just use the [*"Varied"*](https://github.com/tensorflow/magenta/tree/master/magenta/models/image_stylization#stylizing-an-image) model checkpoint from Google Magenta team, which can transform into 32 different styles.
 
-Magenta uses Googles deep learning framework Tensorflow in order to define the neural network to transform the image into a style. The image has first to be converted to a 4D floating point tensor. We then instantiate the Magenta neural network model as tensor flow graph, load the checkpoint model. The style transform is the performed using the **eval()** method which returns the stylized image.
+Magenta uses Googles deep learning framework Tensorflow in order to define the neural network to transform the image into a style. The image has first to be converted to a 4D floating point tensor. We then instantiate the Magenta neural network model as tensor flow graph and load the checkpoint model. The style transform is then performed using the **eval()** method which returns the stylized image.
 
 ``` python
 
@@ -103,7 +103,7 @@ def stylize_image(input_image, which_styles, checkpoint):
 
 ## Generate levels with style
 
-Now we can generate levels with different styles by simply chaining the style transfer with the cave generation. Style transfer will work on binary images but since the lack texture the end result might look a bit dull. We could load a texture before style generation, but since we already can generate style we can also use it for generating a texture. In order to generate a random texture we can simply create a random noise image and pass it through the style transfer with a random style.
+Now we can generate levels with different styles by simply chaining the style transfer with the cave generation. Style transfer will work on binary images but since they lack texture the end result might look a bit dull. We could load a texture before style generation, but since we already can generate style we can also use it for generating a texture. In order to generate a random texture we can simply create a random noise image and pass it through the style transfer with a random style.
 
 It is also important to have a good contrast between the foreground and the background. We therefore make the foreground darker by multiplying it with a small constant. We also rotate the texture by 90 degrees to prevent continues texture patterns between the foreground and the background. We now pass our cave another time through the style transfer in order to give its final style.
 
@@ -140,4 +140,4 @@ Generating an $$1024 \times 1024$$ image on my laptop without GPU takes about 50
 
 ## Summary
 
-Deep neural networks can become powerful tools for procedural art generation in the future. The end results here are not perfect but can vastly speed up the design process. We could further add details such as stones and vegetation to the level before applying the final style transfer to get even more interesting results. I don't see neural networks as a replacement of the artist, but rather as a tool that can make artist more productive. If you want to try generating some caves yourself you can get the full source code at my [GitHub](https://github.com/maitek/cave-generation-with-style).
+Deep neural networks can become powerful tools for procedural art generation in the future. The end results here are not perfect but can vastly speed up the design process. We could further add details such as stones and vegetation to the level before applying the final style transfer to get even more interesting results. I don't see neural networks as a replacement of the artist, but rather as a tool that can make artists more productive. If you want to try generating some caves yourself you can get the full source code at my [GitHub](https://github.com/maitek/cave-generation-with-style).
