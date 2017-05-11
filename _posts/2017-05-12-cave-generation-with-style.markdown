@@ -3,14 +3,14 @@ layout: default
 title:  "Cave generation with style: Create awesome levels using machine learning"
 date:   2017-05-10 17:50:00
 categories: main
-published: false
+published: true
 ---
 
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 # Cave generation with style: Create awesome levels using machine learning
 
-Developing a computer game is both challenging and time consuming. As a hobby game developer I've been working on multiple small game projects myself. It can take several months or even years to complete a game with large and detailed levels. Using modern game engines such as [Unity](https://unity3d.com/) or [Unreal Engine](https://www.unrealengine.com/) speeds up development by providing tools and frameworks for developing game mechanics such as physics and and player controls, but you will still need to design the environment, characters and other content for your game. This tedious design work is also just taking longer and longer as the expectation of graphics and level of details in games rises.
+Developing a computer game is both challenging and time consuming. As a hobby game developer I've been working on multiple small game projects myself. It can take several months or even years to complete a game with large and detailed levels. Using modern game engines such as [Unity](https://unity3d.com/) or [Unreal Engine](https://www.unrealengine.com/) speeds up development by providing tools and frameworks for developing game mechanics such as physics and player controls, but you will still need to design the environment, characters and other content for your game. This tedious design work is also just taking longer and longer as the expectation of graphics and level of details in games rises.
 
 This is why the current trend is for game studios to more and more use generated procedural content in their games. This way the artists and level designers do not need to design every detail for every terrain, forest, and city by themselves. The boring work such as placement of trees and bushes is done by a computer algorithm and the designer can instead focus their time on making the game fun.
 
